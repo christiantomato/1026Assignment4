@@ -5,8 +5,11 @@ class Flight:
 
     #constructor:
     def __init__(self, flight_no, origin, dest, dur):
-        self._flight_no = flight_no
         #it is important to note that origin and destination are airport objects
+        if not (isinstance(origin, Airport) and isinstance(dest, Airport)):
+            #raise exception
+            raise TypeError("The origin and destination must be airport objects")
+        self._flight_no = flight_no
         self._origin = origin
         self._dest = dest
         self._dur = dur

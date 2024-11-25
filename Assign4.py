@@ -21,9 +21,9 @@ def load_data(airport_file, flight_file):
 
         #start with the airport file
         for line in airport_file:
-            # split by the dash delimiter
+            #split by the dash delimiter
             line = line.rsplit("-")
-            # strip each part from trailing or leading whitespace, assign to appropriate variable
+            #strip each part from trailing or leading whitespace, assign to appropriate variable
             code = line[0].strip()
             country = line[1].strip()
             city = line[2].strip()
@@ -65,14 +65,13 @@ def load_data(airport_file, flight_file):
         return False
 
 def get_airport_by_code(code):
-    #find the airport based on the given code by going through the container
+    #find the airport based on the given code by going through the dictionary
     for airport_code in all_airports.keys():
         if airport_code == code:
             #return the object if it exists
             return all_airports.get(code)
     #if we go through all airports and did not find an airport matching the code
     raise ValueError("No airport with the given code: " + code)
-
 
 def find_all_city_flights(city):
     #find flights with either the origin or destination with the desired city
@@ -112,6 +111,12 @@ def find_flight_between(orig_airport, dest_airport):
     connecting_airport_candidates = []
 
     #go through the flight list in the dictionary with same origin airport
+    #note that in the flights dictionary, not all origin airports show up as keys, so check for key error
+    if orig_airport_code not in all_flights.keys():
+        #raise the exception, there are no flights from this location
+        raise ValueError("There are no direct or single-hop connecting flights from " + orig_airport_code + " to " + dest_airport_code)
+
+    #proceed and check for direct flight
     for flight in all_flights[orig_airport_code]:
         #put the destination airport codes in the connection candidates
         connecting_airport_candidates.append(flight.get_destination().get_code())
@@ -124,23 +129,20 @@ def find_flight_between(orig_airport, dest_airport):
     connections_set = set()
     for candidate_code in connecting_airport_candidates:
         #go through all the flights starting from the candidate
-        #there will be an error if the dictionary does not contain the key for are candidate flight, so check that first
-        if candidate_code not in all_flights.keys():
-            #we need to raise an exception - there will never be a connecting flight
-            raise ValueError("There are no direct or single-hop connecting flights from " + orig_airport_code + " to " + dest_airport_code)
-        else:
+        #once again check if it is actually in the dictionary
+        if candidate_code in all_flights.keys():
             #proceed
             for flight in all_flights[candidate_code]:
                 if flight.get_destination().get_code() == dest_airport_code:
-                    # then there is a possible connection and we can add it to the set
+                    #then there is a possible connection and we can add it to the set
                     connections_set.add(candidate_code)
 
-            #return the set if any possible connections were found
-            if len(connections_set) > 0:
-                return connections_set
-            else:
-                #nothing was found, this is so sad :(
-                raise ValueError("There are no direct or single-hop connecting flights from " + orig_airport_code + " to " + dest_airport_code)
+    #return the set if any possible connections were found
+    if len(connections_set) > 0:
+        return connections_set
+    else:
+        #nothing was found, this is so sad :(
+        raise ValueError("There are no direct or single-hop connecting flights from " + orig_airport_code + " to " + dest_airport_code)
 
 def shortest_flight_from(orig_airport):
     #go through all flights from the origin airport and find the lowest duration
@@ -173,4 +175,19 @@ def find_return_flight(first_flight):
 if __name__ == "__main__":
     # Add any of your own tests on your functions here.
     # Make sure you don't have any testing or debugging code outside of this block!
-    pass
+
+    #some tests :D
+    load_data("airports.txt", "flights.txt")
+    pearson = get_airport_by_code("YYZ")
+    ohare = get_airport_by_code("ORD")
+    edm = get_airport_by_code("YEG")
+    bogota = get_airport_by_code("BOG")
+    atlanta = get_airport_by_code("ATL")
+    new_york = get_airport_by_code("JFK")
+    denver = get_airport_by_code("DEN")
+    mexico = get_airport_by_code("MEX")
+    print(find_flight_between(edm, ohare))
+    print(find_flight_between(edm, pearson))
+    print(find_flight_between(ohare, mexico))
+    print(find_flight_between(pearson, ohare))
+
