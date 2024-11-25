@@ -35,4 +35,3 @@ class Airport:
 
     def set_country(self, new_country):
         self._country = new_country
-
