@@ -19,6 +19,7 @@ class Flight:
             type_flight += "domestic"
         else:
             type_flight += "international"
+
         #return description
         return self._origin.get_city() + " to " + self._dest.get_city() + " (" + str(round(self._dur)) + "h" + ")" + " [" + type_flight + "]"
 
