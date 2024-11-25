@@ -1,3 +1,19 @@
+"""
+******************************
+CS 1026 - Assignment 4 – Air Travel
+Code by: Christian Tamayo
+Student ID: ctamayo, 251433749
+File created: Nov 25, 2024
+******************************
+This file contains the Flight class. It defines the
+properties of our Flight data type, giving it values such as
+flight_no, origin airport, destination airport, and duration of flight.
+The Flight class is special in the way that it uses Airport objects
+for some of its properties. In addition to setters and getters, this
+class contains a method that defines addition for the data type,
+and a method that determines if a flight is domestic.
+"""
+
 from Airport import*
 
 #The Flight Class

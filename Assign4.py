@@ -1,8 +1,15 @@
 """
-Template for Assign4.py
-Make sure to remove this comment and add a comment here as described in the assignment document.
-Remove the pass keyword in each function once your implement it.
-Don't forget that you also have to create the Flight.py and Airport.py files.
+******************************
+CS 1026 - Assignment 4 – Air Travel
+Code by: Christian Tamayo
+Student ID: ctamayo, 251433749
+File created: Nov 25, 2024
+******************************
+This file contains the main function and important functions for
+reading data and performing various different tasks depending on what the user
+would like to do. Functions like load_data() stores all the data from the given files,
+and the function find_flight_between() finds a direct or connecting flight from the
+given input.
 """
 
 from Flight import *
@@ -120,8 +127,8 @@ def find_flight_between(orig_airport, dest_airport):
     for flight in all_flights[orig_airport_code]:
         #put the destination airport codes in the connection candidates
         connecting_airport_candidates.append(flight.get_destination().get_code())
-        #check if any have the desired destination
-        if flight.get_destination().get_code() == dest_airport_code:
+        #check if any have the desired destination (look I used airport equality here :D)
+        if flight.get_destination() == dest_airport:
             #then we have a match!
             return "Direct Flight: " + orig_airport_code + " to " + dest_airport_code
 
@@ -133,7 +140,7 @@ def find_flight_between(orig_airport, dest_airport):
         if candidate_code in all_flights.keys():
             #proceed
             for flight in all_flights[candidate_code]:
-                if flight.get_destination().get_code() == dest_airport_code:
+                if flight.get_destination() == dest_airport:
                     #then there is a possible connection and we can add it to the set
                     connections_set.add(candidate_code)
 
@@ -165,7 +172,7 @@ def find_return_flight(first_flight):
 
     #go through all_flights and find the first flight from dest to orig
     for flight in all_flights[dest_airport_code]:
-        if flight.get_destination().get_code() == orig_airport_code:
+        if flight.get_destination() == first_flight.get_origin():
             #then we have found a return flight
             return flight
 
@@ -175,19 +182,4 @@ def find_return_flight(first_flight):
 if __name__ == "__main__":
     # Add any of your own tests on your functions here.
     # Make sure you don't have any testing or debugging code outside of this block!
-
-    #some tests :D
-    load_data("airports.txt", "flights.txt")
-    pearson = get_airport_by_code("YYZ")
-    ohare = get_airport_by_code("ORD")
-    edm = get_airport_by_code("YEG")
-    bogota = get_airport_by_code("BOG")
-    atlanta = get_airport_by_code("ATL")
-    new_york = get_airport_by_code("JFK")
-    denver = get_airport_by_code("DEN")
-    mexico = get_airport_by_code("MEX")
-    print(find_flight_between(edm, ohare))
-    print(find_flight_between(edm, pearson))
-    print(find_flight_between(ohare, mexico))
-    print(find_flight_between(pearson, ohare))
-
+    pass

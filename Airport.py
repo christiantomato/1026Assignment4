@@ -1,3 +1,17 @@
+"""
+******************************
+CS 1026 - Assignment 4 – Air Travel
+Code by: Christian Tamayo
+Student ID: ctamayo, 251433749
+File created: Nov 25, 2024
+******************************
+This file contains the Airport class. It defines the
+properties of our Airport data type, giving it values such as
+code, city, and country. The Airport class also contains various
+methods like equality, setters, and getters that allow us to manipulate
+data.
+"""
+
 #The Airport Class
 class Airport:
 
